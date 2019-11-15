@@ -11,7 +11,7 @@ Truss is Headstorm's modular software platform designed to be a pluggable, reusa
    
 ## Technology
 
-Truss is built on a functional architecture written in Scala using these major technologies
+Truss is built in Scala using these major technologies
   * Cats
   * Http4s
   * Doobie
@@ -19,5 +19,13 @@ Truss is built on a functional architecture written in Scala using these major t
 
 ## Architecture
 
+Truss is designed on a functional architecture based on a pluggable algebra.  The platform is composed of pluggable modules designed as a function from Input -> Output where various functions and modules are injected that
 
-   
+## Principals
+  * Immutability
+  * Typesafety
+  * Functions as first class citizens
+  * Observability
+  * Maintainability
+  * Scalability
+  * Consistency

@@ -22,10 +22,14 @@ Truss is built in Scala using these major technologies
 Truss is designed on a functional architecture based on a pluggable algebra.  The platform is composed of pluggable modules designed as a function from `Input -> Output` where various functions and modules are injected that
 
 ## Principals
-  * Immutability
-  * Typesafety
-  * Functions as first class citizens
-  * Observability
+
+Truss' architecture revolves around these founding principals in order to be maximally effective for a large number of variant software products.
+
+  * Extensibility
   * Maintainability
-  * Scalability
   * Consistency
+  * Observability
+  * Scalability
+  * Immutability
+  * Configurability
+  * Portability

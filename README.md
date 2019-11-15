@@ -1,4 +1,4 @@
-<img align="left" width="150" height="200" src="https://www.milossystems.com/MSS/media/static-media/ace3e7cd-e866-4c09-aa32-5e4dedbd67b3@page-image.jpg">
+<img align="left" width="125" height="125" src="https://www.milossystems.com/MSS/media/static-media/ace3e7cd-e866-4c09-aa32-5e4dedbd67b3@page-image.jpg">
 
 
 # Truss

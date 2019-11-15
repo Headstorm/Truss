@@ -1,4 +1,4 @@
-<img align="left" width="80" height="80" src="https://www.milossystems.com/MSS/media/static-media/ace3e7cd-e866-4c09-aa32-5e4dedbd67b3@page-image.jpg">
+<img align="left" width="100" height="80" src="https://www.milossystems.com/MSS/media/static-media/ace3e7cd-e866-4c09-aa32-5e4dedbd67b3@page-image.jpg">
 
 
 # Truss
@@ -15,6 +15,7 @@ Truss is built on a functional architecture written in Scala using these major t
   * Cats
   * Http4s
   * Doobie
+  * fs2
 
 ## Architecture
 

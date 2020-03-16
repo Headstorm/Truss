@@ -10,7 +10,7 @@ object Main extends IOApp {
     // the endpoints' routes
     val helloWorldRoutes = new Endpoints("name", "hello", "get").getRoute
     val byeWorldRoutes = new Endpoints("name", "bye", "post").getRoute
-    val streamRoutes = new StreamEndpoints("text", "stream").getRoute
+    val streamRoutes = new StreamEndpoints("text", "stream", "get").getRoute
 
     val route = Router(
         ("/" -> helloWorldRoutes),

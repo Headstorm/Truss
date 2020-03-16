@@ -44,6 +44,14 @@ libraryDependencies += "com.softwaremill.sttp.tapir" %% "tapir-sttp-client" % "0
 libraryDependencies += "com.softwaremill.sttp.client" %% "core" % "2.0.4"
 libraryDependencies += "com.softwaremill.sttp" %% "core" % "1.0.2"
 
+val circeVersion = "0.12.3"
+
+libraryDependencies ++= Seq(
+    "io.circe" %% "circe-core",
+    "io.circe" %% "circe-generic",
+    "io.circe" %% "circe-parser"
+).map(_ % circeVersion)
+
 scalacOptions ++= Seq(
     "-deprecation", // Emit warning and location for usages of deprecated APIs.
     "-encoding",

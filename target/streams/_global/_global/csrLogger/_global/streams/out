@@ -1,4 +1,12 @@
-[debug] downloaded https://repo1.maven.org/maven2/com/softwaremill/sttp/core_2.12/1.0.2/core_2.12-1.0.2.pom
-[debug] downloaded https://repo1.maven.org/maven2/com/softwaremill/sttp/core_2.12/1.0.2/core_2.12-1.0.2.jar
-[debug] downloaded https://repo1.maven.org/maven2/com/softwaremill/sttp/core_2.12/1.0.2/core_2.12-1.0.2-javadoc.jar
-[debug] downloaded https://repo1.maven.org/maven2/com/softwaremill/sttp/core_2.12/1.0.2/core_2.12-1.0.2-sources.jar
+[debug] downloaded https://repo1.maven.org/maven2/io/circe/circe-core_2.12/0.12.3/circe-core_2.12-0.12.3.pom
+[debug] downloaded https://repo1.maven.org/maven2/io/circe/circe-parser_2.12/0.12.3/circe-parser_2.12-0.12.3.pom
+[debug] downloaded https://repo1.maven.org/maven2/io/circe/circe-numbers_2.12/0.12.3/circe-numbers_2.12-0.12.3.pom
+[debug] downloaded https://repo1.maven.org/maven2/org/typelevel/cats-core_2.12/2.0.0/cats-core_2.12-2.0.0.pom
+[debug] downloaded https://repo1.maven.org/maven2/org/typelevel/cats-kernel_2.12/2.0.0/cats-kernel_2.12-2.0.0.pom
+[debug] downloaded https://repo1.maven.org/maven2/org/typelevel/cats-macros_2.12/2.0.0/cats-macros_2.12-2.0.0.pom
+[debug] downloaded https://repo1.maven.org/maven2/io/circe/circe-parser_2.12/0.12.3/circe-parser_2.12-0.12.3.jar
+[debug] downloaded https://repo1.maven.org/maven2/io/circe/circe-core_2.12/0.12.3/circe-core_2.12-0.12.3.jar
+[debug] downloaded https://repo1.maven.org/maven2/io/circe/circe-core_2.12/0.12.3/circe-core_2.12-0.12.3-sources.jar
+[debug] downloaded https://repo1.maven.org/maven2/io/circe/circe-parser_2.12/0.12.3/circe-parser_2.12-0.12.3-sources.jar
+[debug] downloaded https://repo1.maven.org/maven2/io/circe/circe-parser_2.12/0.12.3/circe-parser_2.12-0.12.3-javadoc.jar
+[debug] downloaded https://repo1.maven.org/maven2/io/circe/circe-core_2.12/0.12.3/circe-core_2.12-0.12.3-javadoc.jar

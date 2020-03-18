@@ -45,10 +45,19 @@ object RouteGenerator {
 
     class StreamEndpoints(paramName: String, endpointName: String, method: String) {
 
-      val streamingEndpoint: Endpoint[String, Unit, Source[ByteString, Any], Source[ByteString, Any]] = {
+      val baseEndpoint = endpoint.errorOut(
+        oneOf(
+          statusMapping(StatusCode.NotFound, jsonBody[NotFound].description("not found")),
+          statusMapping(StatusCode.Unauthorized, jsonBody[Unauthorized].description("unauthorized")),
+          statusMapping(StatusCode.NoContent, emptyOutput.map(_ => NoContent)(_ => ())),
+          statusDefaultMapping(jsonBody[Unknown].description("unknown"))
+        )
+      )
+
+      val streamingEndpoint: Endpoint[String, ErrorInfo with Product with Serializable, Source[ByteString, Any], Source[ByteString, Any]] = {
         method match {
-          case "get" => endpoint.get.in(endpointName).in(query[String](paramName)).out(streamBody[Source[ByteString, Any]](schemaFor[Messages], CodecFormat.TextPlain()))
-          case "post" => endpoint.post.in(endpointName).in(query[String](paramName)).out(streamBody[Source[ByteString, Any]](schemaFor[Messages], CodecFormat.TextPlain()))
+          case "get" => baseEndpoint.get.in(endpointName).in(query[String](paramName)).out(streamBody[Source[ByteString, Any]](schemaFor[Messages], CodecFormat.TextPlain()))
+          case "post" => baseEndpoint.post.in(endpointName).in(query[String](paramName)).out(streamBody[Source[ByteString, Any]](schemaFor[Messages], CodecFormat.TextPlain()))
         }
       }
 

@@ -1,19 +1,13 @@
 import RouteGenerator._
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
-import io.circe.generic.auto._
-import sttp.tapir._
 import sttp.tapir.docs.openapi._
-import sttp.tapir.json.circe._
 import sttp.tapir.openapi.OpenAPI
 import sttp.tapir.openapi.circe.yaml._
-import sttp.tapir.server.akkahttp._
 import sttp.tapir.swagger.akkahttp.SwaggerAkka
-import com.github.ghik.silencer.silent
-import java.util.concurrent.atomic.AtomicReference
 
 import scala.concurrent.duration._
-import scala.concurrent.{Await, Future}
+import scala.concurrent.Await
 
 object Main extends App {
 

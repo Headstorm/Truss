@@ -1,8 +1,8 @@
-[error] sbt.librarymanagement.ResolveException: Error downloading net.liftweb:lift-json_2.12:2.5+
-[error]   No version found for [2.5,2.5.max] in 
-[error]   No version found for [2.5,2.5.max] in 
-[error]   not found: /Users/plee/.ivy2/local/net.liftweb/lift-json_2.12
-[error]   No version found for [2.5,2.5.max] in https://repo1.maven.org/maven2/net/liftweb/lift-json_2.12/maven-metadata.xml
+[error] sbt.librarymanagement.ResolveException: Error downloading com.github.ghik:silencer-lib_2.12.10:1.4.2
+[error]   Not found
+[error]   Not found
+[error]   not found: C:\Users\plee\.ivy2\local\com.github.ghik\silencer-lib_2.12.10\1.4.2\ivys\ivy.xml
+[error]   not found: https://repo1.maven.org/maven2/com/github/ghik/silencer-lib_2.12.10/1.4.2/silencer-lib_2.12.10-1.4.2.pom
 [error] 	at lmcoursier.CoursierDependencyResolution.unresolvedWarningOrThrow(CoursierDependencyResolution.scala:246)
 [error] 	at lmcoursier.CoursierDependencyResolution.$anonfun$update$34(CoursierDependencyResolution.scala:215)
 [error] 	at scala.util.Either$LeftProjection.map(Either.scala:573)
@@ -33,8 +33,8 @@
 [error] 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
 [error] 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
 [error] 	at java.base/java.lang.Thread.run(Thread.java:830)
-[error] (ssExtractDependencies) sbt.librarymanagement.ResolveException: Error downloading net.liftweb:lift-json_2.12:2.5+
-[error]   No version found for [2.5,2.5.max] in 
-[error]   No version found for [2.5,2.5.max] in 
-[error]   not found: /Users/plee/.ivy2/local/net.liftweb/lift-json_2.12
-[error]   No version found for [2.5,2.5.max] in https://repo1.maven.org/maven2/net/liftweb/lift-json_2.12/maven-metadata.xml
+[error] (ssExtractDependencies) sbt.librarymanagement.ResolveException: Error downloading com.github.ghik:silencer-lib_2.12.10:1.4.2
+[error]   Not found
+[error]   Not found
+[error]   not found: C:\Users\plee\.ivy2\local\com.github.ghik\silencer-lib_2.12.10\1.4.2\ivys\ivy.xml
+[error]   not found: https://repo1.maven.org/maven2/com/github/ghik/silencer-lib_2.12.10/1.4.2/silencer-lib_2.12.10-1.4.2.pom

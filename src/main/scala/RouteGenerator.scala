@@ -1,77 +1,63 @@
-import cats.effect.{ContextShift, IO, _}
-import cats.implicits._
-import io.circe.generic.auto._
-import io.circe.syntax._
-import fs2._
-import org.http4s.HttpRoutes
-import sttp.model.HeaderNames
-import sttp.tapir._
+import sttp.tapir.Endpoint
+
+import scala.concurrent.Future
 import sttp.tapir.json.circe._
-import sttp.tapir.server.http4s._
-
-import scala.concurrent.ExecutionContext
-
-
+import akka.http.scaladsl.server.Route
+import akka.stream.scaladsl.Source
+import akka.util.ByteString
+import sttp.tapir._
+import sttp.tapir.server.akkahttp._
+import sttp.model.StatusCode
+import io.circe.generic.auto._, io.circe.syntax._
 
 object RouteGenerator {
 
-    // mandatory implicits
-    implicit val ec: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
-    implicit val contextShift: ContextShift[IO] = IO.contextShift(ec)
-    implicit val timer: Timer[IO] = IO.timer(ec)
-
+    sealed trait ErrorInfo
+    case class NotFound(what: String) extends ErrorInfo
+    case class Unauthorized(realm: String) extends ErrorInfo
+    case class Unknown(code: Int, msg: String) extends ErrorInfo
+    case object NoContent extends ErrorInfo
+//
     case class Messages(code: String, msg: String)
     val msgCodec = jsonBody[Messages]
 
     class Endpoints(paramName: String, endpointName: String, method: String) {
 
-        def logic(in: String): IO[Either[Unit, Messages]] = {
-            IO(Messages("200", s"$endpointName : $paramName : $in").asRight[Unit])
+        val baseEndpoint = endpoint.errorOut(
+          oneOf(
+            statusMapping(StatusCode.NotFound, jsonBody[NotFound].description("not found")),
+            statusMapping(StatusCode.Unauthorized, jsonBody[Unauthorized].description("unauthorized")),
+            statusMapping(StatusCode.NoContent, emptyOutput.map(_ => NoContent)(_ => ())),
+            statusDefaultMapping(jsonBody[Unknown].description("unknown"))
+          )
+        )
+
+        val aEndpoint: Endpoint[String, ErrorInfo with Product with Serializable, Messages, Nothing] = {
+          method match {
+            case "get" => baseEndpoint.get.in(endpointName).in(query[String](paramName)).out(jsonBody[Messages])
+            case "post" => baseEndpoint.post.in(endpointName).in(query[String](paramName)).out(jsonBody[Messages])
+          }
+
         }
 
-        def getRoute = {
-            val initialEndpoint = method match {
-                case "get" => endpoint.get
-                case "post" => endpoint.post
-            }
-            initialEndpoint.in(endpointName).in(query[String](paramName)).out(msgCodec).toRoutes((logic _))
-
-        }
-
+        val aRoute = aEndpoint.toRoute(in => Future.successful(Right(Messages("200", s"$endpointName : $paramName : $in"))))
     }
 
     class StreamEndpoints(paramName: String, endpointName: String, method: String) {
 
-        val size = 100L
-
-        def logic(in: String) = {
-            val responseMsg = Messages("200", in)
-            val responseMsgJson = responseMsg.asJson.toString()
-            val listChar = responseMsgJson.toList
-            val streamProcess = Stream
-              .emit(listChar)
-              .flatMap(list => Stream.chunk(Chunk.seq(list)))
-              .take(size)
-              .covary[IO]
-              .map(_.toByte)
-              .pure[IO]
-              .map(s => Right((size, s)))
-            streamProcess
+      val streamingEndpoint: Endpoint[String, Unit, Source[ByteString, Any], Source[ByteString, Any]] = {
+        method match {
+          case "get" => endpoint.get.in(endpointName).in(query[String](paramName)).out(streamBody[Source[ByteString, Any]](schemaFor[Messages], CodecFormat.TextPlain()))
+          case "post" => endpoint.post.in(endpointName).in(query[String](paramName)).out(streamBody[Source[ByteString, Any]](schemaFor[Messages], CodecFormat.TextPlain()))
         }
+      }
 
-        def getRoute = {
-            val initialEndpoint = method match {
-                case "get" => endpoint.get
-                case "post" => endpoint.post
-            }
-            val streamingEndpoint = initialEndpoint
-              .in(endpointName)
-              .in(query[String](paramName))
-              .out(header[Long](HeaderNames.ContentLength))
-              .out(streamBody[Stream[IO, Byte]](schemaFor[String], CodecFormat.TextPlain()))
-            val streamingRoutes: HttpRoutes[IO] = streamingEndpoint.toRoutes (logic _)
-            streamingRoutes
-        }
+      def createStream(in: String) = {
+        val stringMsg = Messages("200", s"$endpointName : $paramName : $in").asJson.toString()
+        val streamMsg = Source.repeat(stringMsg).take(1).map(s => ByteString(s))
+        Future.successful(Right(streamMsg))
+      }
+      val streamingRoute: Route = streamingEndpoint.toRoute(createStream _)
 
     }
 }

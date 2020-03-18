@@ -1,28 +1,58 @@
 import RouteGenerator._
-import cats.effect.{IO, _}
-import cats.implicits._
-import org.http4s.server.Router
-import org.http4s.server.blaze.BlazeServerBuilder
-import org.http4s.syntax.kleisli._
+import akka.actor.ActorSystem
+import akka.http.scaladsl.Http
+import io.circe.generic.auto._
+import sttp.tapir._
+import sttp.tapir.docs.openapi._
+import sttp.tapir.json.circe._
+import sttp.tapir.openapi.OpenAPI
+import sttp.tapir.openapi.circe.yaml._
+import sttp.tapir.server.akkahttp._
+import sttp.tapir.swagger.akkahttp.SwaggerAkka
+import com.github.ghik.silencer.silent
+import java.util.concurrent.atomic.AtomicReference
 
-object Main extends IOApp {
+import scala.concurrent.duration._
+import scala.concurrent.{Await, Future}
+
+object Main extends App {
 
     // the endpoints' routes
-    val helloWorldRoutes = new Endpoints("name", "hello", "get").getRoute
-    val byeWorldRoutes = new Endpoints("name", "bye", "post").getRoute
-    val streamRoutes = new StreamEndpoints("text", "stream", "get").getRoute
+    val helloWorldInit = new Endpoints("name", "hello", "get")
+    val helloWorldEndpoint = helloWorldInit.aEndpoint
+    val helloWorldRoute = helloWorldInit.aRoute
 
-    val route = Router(
-        ("/" -> helloWorldRoutes),
-        ("/" -> byeWorldRoutes),
-        ("/" -> streamRoutes)).orNotFound
+    val byeWorldInit = new Endpoints("name", "bye", "post")
+    val byeWorldEndpoint = byeWorldInit.aEndpoint
+    val byeWorldRoute = byeWorldInit.aRoute
+
+    val streamInit = new StreamEndpoints("text", "stream", "get")
+    val streamEndpoint = streamInit.streamingEndpoint
+    val streamRoute = streamInit.streamingRoute
+
+    // generating the documentation in yml; extension methods come from imported packages
+    val openApiDocs: OpenAPI = List(helloWorldEndpoint, byeWorldEndpoint, streamEndpoint).toOpenAPI("The tapir library", "1.0.0")
+    val openApiYml: String = openApiDocs.toYaml
 
     // starting the server
-    override def run(args: List[String]): IO[ExitCode] =
-        BlazeServerBuilder[IO]
-          .bindHttp(8080)
-          .withHttpApp(route)
-          .serve
-          .compile.drain.as(ExitCode.Success)
+    implicit val actorSystem: ActorSystem = ActorSystem()
+    import actorSystem.dispatcher
+
+    val routes = {
+        import akka.http.scaladsl.server.Directives._
+        helloWorldRoute ~ byeWorldRoute ~ streamRoute ~ new SwaggerAkka(openApiYml).routes
+    }
+
+    val bindAndCheck = Http().bindAndHandle(routes, "localhost", 8080).map { _ =>
+        // testing
+        println("Go to: http://localhost:8080/docs")
+        println("Press any key to exit ...")
+        scala.io.StdIn.readLine()
+    }
+
+    // cleanup
+    Await.result(bindAndCheck.transformWith { r =>
+        actorSystem.terminate().transform(_ => r)
+    }, 1.minute)
 
 }

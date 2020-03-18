@@ -50,22 +50,22 @@ object Main extends App {
 
         //test hello GET endpoint
         val result: String = basicRequest.response(asStringAlways).get(uri"http://localhost:8080/hello?name=Frodo").send().body
-//        println("Got result: " + result)
+        //        println("Got result: " + result)
         assert(result == "{\"code\":\"200\",\"msg\":\"hello : name : Frodo\"}")
 
         //test bye POST endpoint
         val result2: String = basicRequest.response(asStringAlways).post(uri"http://localhost:8080/bye?name=Frodo").send().body
-//        println("Got result: " + result2)
+        //        println("Got result: " + result2)
         assert(result2 == "{\"code\":\"200\",\"msg\":\"bye : name : Frodo\"}")
 
         //test streaming GET endpoint
         val result3: String = basicRequest.response(asStringAlways).get(uri"http://localhost:8080/stream?text=Frodo").send().body
-//        println("Got result: " + result3)
+        //        println("Got result: " + result3)
         assert(result3 == "{\n  \"code\" : \"200\",\n  \"msg\" : \"stream : text : Frodo\"\n}")
 
         //test Not Found
         val result4: String = basicRequest.response(asStringAlways).get(uri"http://localhost:8080/stream2?text=Frodo").send().statusText
-//        println("Got result: " + result4)
+        //        println("Got result: " + result4)
         assert(result4 == "Not Found")
 
         //running server

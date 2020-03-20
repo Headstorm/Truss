@@ -1,3 +1,5 @@
+package com.headstorm
+
 import sttp.tapir.Endpoint
 
 import scala.concurrent.Future

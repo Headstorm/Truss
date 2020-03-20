@@ -57,3 +57,5 @@ val silencerVersion = "1.4.2"
 
 libraryDependencies += "com.github.ghik" % "silencer-plugin_2.12" % "1.4.2"
 libraryDependencies += "net.liftweb" %% "lift-json" % "3.4.1"
+
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.8" % "test"

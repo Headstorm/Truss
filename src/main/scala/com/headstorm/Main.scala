@@ -1,7 +1,8 @@
+package com.headstorm
+
 import RouteGenerator._
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
-
 import sttp.tapir.docs.openapi._
 import sttp.tapir.openapi.OpenAPI
 import sttp.tapir.openapi.circe.yaml._
@@ -9,7 +10,6 @@ import sttp.tapir.swagger.akkahttp.SwaggerAkka
 
 import scala.concurrent.duration._
 import scala.concurrent.Await
-
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Route

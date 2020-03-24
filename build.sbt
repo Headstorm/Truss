@@ -44,6 +44,7 @@ libraryDependencies += "com.softwaremill.sttp.tapir" %% "tapir-swagger-ui-akka-h
 libraryDependencies += "com.softwaremill.sttp.tapir" %% "tapir-sttp-client" % "0.12.23"
 libraryDependencies += "com.softwaremill.sttp.client" %% "core" % "2.0.4"
 libraryDependencies += "com.softwaremill.sttp" %% "core" % "1.0.2"
+libraryDependencies += "com.softwaremill.sttp.tapir" %% "tapir-swagger-ui-http4s" % "0.12.23"
 
 val circeVersion = "0.12.3"
 
@@ -59,3 +60,22 @@ libraryDependencies += "com.github.ghik" % "silencer-plugin_2.12" % "1.4.2"
 libraryDependencies += "net.liftweb" %% "lift-json" % "3.4.1"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.8" % "test"
+
+libraryDependencies += "com.github.pureconfig" %% "pureconfig" % "0.12.3"
+
+libraryDependencies ++= Seq(
+
+    // Start with this one
+    "org.tpolecat" %% "doobie-core"      % "0.8.6",
+
+    // And add any of these as needed
+    "org.tpolecat" %% "doobie-h2"        % "0.8.6",          // H2 driver 1.4.200 + type mappings.
+    "org.tpolecat" %% "doobie-hikari"    % "0.8.6",          // HikariCP transactor.
+    "org.tpolecat" %% "doobie-postgres"  % "0.8.6",          // Postgres driver 42.2.9 + type mappings.
+    "org.tpolecat" %% "doobie-quill"     % "0.8.6",          // Support for Quill 3.4.10
+    "org.tpolecat" %% "doobie-specs2"    % "0.8.6" % "test", // Specs2 support for typechecking statements.
+    "org.tpolecat" %% "doobie-scalatest" % "0.8.6" % "test"  // ScalaTest support for typechecking statements.
+
+)
+
+scalacOptions += "-Ypartial-unification"

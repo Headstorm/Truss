@@ -2,7 +2,6 @@ import com.headstorm.RouteGenerator._
 import org.scalatest.FunSuite
 import cats.effect._
 import cats.implicits._
-import com.headstorm.Main.{openApiYml, routes}
 import org.http4s.HttpRoutes
 import org.http4s.server.Router
 import org.http4s.server.blaze.BlazeServerBuilder

@@ -144,8 +144,9 @@ object RouteGenerator {
             val qResult = decode[City](n) match {
                 case Right(r) => insert(r).run.transact(xa).unsafeRunSync match {
                     case x: Int => Messages("200", s"Updated $x record(s).")
-                    case _ => Messages("400", "Error")
+//                    case _ => Messages("400", "Error")
                 }
+                case Left(l) => Messages("400", "Error")
             }
             qResult
         }
@@ -154,8 +155,9 @@ object RouteGenerator {
             val qResult = decode[UpdateCity](n) match {
                 case Right(r) => update(r).run.transact(xa).unsafeRunSync match {
                     case x: Int => Messages("200", s"Updated $x record(s).")
-                    case _ => Messages("400", "Error")
+//                    case _ => Messages("400", "Error")
                 }
+                case Left(l) => Messages("400", "Error")
             }
             qResult
         }

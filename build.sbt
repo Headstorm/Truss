@@ -69,8 +69,22 @@ libraryDependencies ++= Seq(
     "com.github.valskalla" %% "odin-extras" //to enable additional features if needed (see docs)
 ).map(_ % "0.7.0")
 
+<<<<<<< HEAD
 addSbtPlugin("org.xerial.sbt" % "sbt-pack" % "(version)")
 
+=======
+enablePlugins(PackPlugin)
+
+//import xerial.sbt.Pack.packSettings
+
+packMain := Map("main" -> "com.headstorm.Main")
+packJarNameConvention := "default"
+packExcludeJars := Seq("scala-.*\\.jar")
+
+// To publish tar.gz, zip archives to the repository, add the following lines:
+//import xerial.sbt.pack.PackPlugin._
+//publishPackArchives
+>>>>>>> fa228dea71b2d684c5dbf3d0555f1f77ae8293b7
 
 //scalacOptions += "-Ypartial-unification"
 

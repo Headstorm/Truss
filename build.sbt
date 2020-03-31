@@ -69,6 +69,18 @@ libraryDependencies ++= Seq(
     "com.github.valskalla" %% "odin-extras" //to enable additional features if needed (see docs)
 ).map(_ % "0.7.0")
 
+enablePlugins(PackPlugin)
+
+//import xerial.sbt.Pack.packSettings
+
+packMain := Map("main" -> "com.headstorm.Main")
+packJarNameConvention := "default"
+packExcludeJars := Seq("scala-.*\\.jar")
+
+// To publish tar.gz, zip archives to the repository, add the following lines:
+//import xerial.sbt.pack.PackPlugin._
+//publishPackArchives
+
 //scalacOptions += "-Ypartial-unification"
 
 scalacOptions ++= Seq(

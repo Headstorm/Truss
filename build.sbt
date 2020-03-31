@@ -69,6 +69,9 @@ libraryDependencies ++= Seq(
     "com.github.valskalla" %% "odin-extras" //to enable additional features if needed (see docs)
 ).map(_ % "0.7.0")
 
+addSbtPlugin("org.xerial.sbt" % "sbt-pack" % "(version)")
+
+
 //scalacOptions += "-Ypartial-unification"
 
 scalacOptions ++= Seq(

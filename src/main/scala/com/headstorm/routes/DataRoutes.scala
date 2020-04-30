@@ -39,5 +39,9 @@ class DataRoutes[F[_]](service: DataService[F])(
       service.counties.asJson.spaces4
     )
 
+    case GET -> Root / "counties" / "weather" => Ok(
+      service.countyWeatherDemo
+    )
+
   }
 }

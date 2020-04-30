@@ -1,0 +1,73 @@
+# Scala CircleCI 2.0 configuration file
+# Check https://circleci.com/docs/2.0/sample-config/ for more details
+version: 2.1
+
+orbs:
+  slack: circleci/slack@3.4.2
+
+workflows:
+  compile_and_test:
+    jobs:
+      - build
+      - test
+  build_and_push_image:
+    jobs:
+      - stage
+
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:11-jdk
+
+    working_directory: ~/truss-server
+
+    environment:
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+
+    steps:
+      - checkout
+
+      - run:
+          name: Build source
+          command: sbt compile
+
+  test:
+    docker:
+      - image: circleci/openjdk:11-jdk
+
+    working_directory: ~/truss-server
+
+    environment:
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+
+    steps:
+      - checkout
+
+      - run:
+          name: Run tests
+          command: sbt test
+
+  stage:
+    docker:
+      - image: circleci/openjdk:11-jdk
+
+    working_directory: ~/truss-server
+
+    environment:
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+
+    steps:
+      - setup_remote_docker
+      - checkout
+
+      - run:
+          name: Build source
+          command: sbt docker:stage
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
